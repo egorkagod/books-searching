@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Searching</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+<div class="container">
+
+    <h1>Найди свою книгу</h1>
+
+    <div class="card">
+        <div class="section-title">Поиск книги</div>
+
+        <form method="get" id="search-form">
+            <input type="text" id="query" name="query" placeholder="Введите описание или название">
+
+            <button type="submit">Искать</button>
+            <p class="info" id="search-info"></p>
+        </form>
+    </div>
+
+    <div id="books"></div>
+
+    <div class="card">
+        <div class="section-title">Загрузка книги</div>
+
+        <form method="post" id="load-form">
+
+            <label for="title">Заголовок</label>
+            <input type="text" id="title" name="title" required>
+
+            <div class="row">
+                <div>
+                    <label for="author">Автор</label>
+                    <input type="text" id="author" name="author" required>
+                </div>
+
+                <div>
+                    <label for="year">Год издания</label>
+                    <input type="number" id="year" name="year" required>
+                </div>
+            </div>
+
+            <label for="category">Категория</label>
+            <input type="text" id="category" name="category" required>
+
+            <label for="description">Описание</label>
+            <textarea id="description" name="description" required></textarea>
+
+            <button type="submit">Загрузить</button>
+            <p class="info" id="load-info"></p>
+        </form>
+    </div>
+
+    <div class="card">
+        <div class="section-title">Загрузка книг в JSON формате</div>
+
+        <form method="post" id="batch-load-form">
+            <textarea id="json" name="json" required></textarea>
+
+            <button type="submit">Загрузить</button>
+            <p class="info" id="batch-load-info"></p>
+        </form>
+    </div>
+</div>
+<script src="/static/script.js"></script>
+</body>
+</html>

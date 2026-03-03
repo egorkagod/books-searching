@@ -1,0 +1,70 @@
+services:
+  app:
+    image: book-searching:latest
+    container_name: book-app
+    build: 
+      context: .
+      dockerfile: ./Dockerfile.app
+    ports:
+      - "8080:8000"
+    depends_on:
+      milvus:
+        condition: service_healthy
+    volumes:
+      - hf_cache:/opt/hf
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+
+  milvus:
+    build: 
+      context: .
+      dockerfile: ./Dockerfile.milvus
+    container_name: milvusdb
+    command: ["milvus", "run", "standalone"]
+    expose:
+      - "19530"
+      - "9091"
+    environment:
+      - ETCD_ENDPOINTS=etcd:2379
+      - MINIO_ADDRESS=minio:9000
+      - MINIO_ACCESS_KEY=minioadmin
+      - MINIO_SECRET_KEY=minioadmin
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:9091/healthz"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      minio:
+        condition: service_started
+      etcd:
+        condition: service_healthy
+
+  minio:
+    image: minio/minio:RELEASE.2024-05-28T17-19-04Z
+    container_name: minio
+    environment:
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+    command: minio server /minio_data
+
+  etcd:
+    image: milvusdb/etcd:3.5.5-r2
+    container_name: etcd
+    environment:
+      - ALLOW_NONE_AUTHENTICATION=yes
+      - ETCD_AUTO_COMPACTION_MODE=revision
+      - ETCD_AUTO_COMPACTION_RETENTION=1000
+      - ETCD_QUOTA_BACKEND_BYTES=4294967296
+      - ETCD_SNAPSHOT_COUNT=50000
+    healthcheck:
+      test: [ 'CMD', '/opt/bitnami/scripts/etcd/healthcheck.sh' ]
+      interval: 10s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  hf_cache:

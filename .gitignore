@@ -1,0 +1,69 @@
+# =====================
+# Python
+# =====================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+*.egg
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# =====================
+# Logs
+# =====================
+*.log
+app.log
+
+# =====================
+# Data files
+# =====================
+books.json
+*.db
+*.sqlite3
+
+milvus/
+*.milvus
+
+# =====================
+# Pytest
+# =====================
+.pytest_cache/
+.coverage
+htmlcov/
+
+# =====================
+# IDE
+# =====================
+.idea/
+.vscode/
+
+# =====================
+# OS files
+# =====================
+.DS_Store
+Thumbs.db
+
+# =====================
+# Docker
+# =====================
+.env
+.env.*
+docker-compose.override.yml
+
+# =====================
+# HuggingFace cache (если используешь)
+# =====================
+hf_cache/
+.cache/
+
+# =====================
+# Build / dist
+# =====================
+build/
+dist/
