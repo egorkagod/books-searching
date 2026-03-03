@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends
 
 from ..dto import BookLoadDTO, BookSearchingDTO
 from ..service import get_service
@@ -18,8 +18,8 @@ def load_book(book: BookLoadDTO, service = Depends(get_service)):
 
 @router.get("/search")
 def search_relevant_books(
-    limit: int = Query(gt=0, lt=6),
-    query: str = Query(min_length=3, strip_whitespace=True),
+    limit: int,
+    query: str,
     service = Depends(get_service)
 ):
     books = service.search_relevant(

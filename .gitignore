@@ -23,7 +23,6 @@ app.log
 # =====================
 # Data files
 # =====================
-books.json
 *.db
 *.sqlite3
 
