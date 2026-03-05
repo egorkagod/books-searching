@@ -1,3 +1,4 @@
+import os
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
@@ -14,7 +15,11 @@ from .milvus import init_collection
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    client = MilvusClient("http://milvus:19530")
+    milvus_url = os.getenv("MILVUS_URL")
+    if not milvus_url:
+        raise RuntimeError("В окружении отсутствует MILVUS_URL")
+    
+    client = MilvusClient(milvus_url)
     app.state.milvus = client
 
     if not client.has_collection(collection_name="books"):

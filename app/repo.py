@@ -26,6 +26,9 @@ class BookRepo:
             limit=dto.limit,
             output_fields=["title", "description", "year", "author"]
         )[0]
+    
+    def flush(self) -> None:
+        self.client.flush(collection_name="books")
 
 
 def get_milvus_repo(

@@ -7,6 +7,8 @@ services:
       dockerfile: ./Dockerfile.app
     ports:
       - "8080:8000"
+    environment:
+      - MILVUS_URL=http://milvus:19530
     depends_on:
       milvus:
         condition: service_healthy
@@ -24,9 +26,9 @@ services:
       dockerfile: ./Dockerfile.milvus
     container_name: milvusdb
     command: ["milvus", "run", "standalone"]
-    expose:
-      - "19530"
-      - "9091"
+    ports:
+      - "19530:19530"
+      - "9091:9091"
     environment:
       - ETCD_ENDPOINTS=etcd:2379
       - MINIO_ADDRESS=minio:9000
